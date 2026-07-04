@@ -1626,3 +1626,130 @@ button, input, select, textarea {
   border-bottom: 1px dashed rgba(138, 21, 21, 0.1);
   padding-bottom: 8px;
 }
+
+/* COUNTDOWN TIMER SECTION */
+.countdown-section {
+  background-color: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+  padding: 60px 40px;
+  margin: 60px auto;
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  box-shadow: var(--shadow-md);
+}
+
+.countdown-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 48px;
+  align-items: center;
+}
+
+.countdown-image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.countdown-img-frame {
+  position: relative;
+  border: 3px double var(--color-gold);
+  border-radius: var(--radius-md);
+  padding: 10px;
+  background-color: var(--color-white);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  max-width: 320px;
+  width: 100%;
+}
+
+.countdown-image {
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+  width: 100%;
+  height: auto;
+}
+
+.countdown-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.countdown-timer-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 10px;
+}
+
+.timer-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--color-white);
+  border: 1px solid rgba(138, 21, 21, 0.1);
+  border-radius: var(--radius-md);
+  min-width: 80px;
+  padding: 16px;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-fast);
+}
+
+.timer-box:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-gold);
+  box-shadow: var(--shadow-md);
+}
+
+.timer-value {
+  font-family: var(--font-poppins);
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--color-maroon);
+  line-height: 1;
+}
+
+.timer-label {
+  font-family: var(--font-hindi);
+  font-size: 0.85rem;
+  color: var(--color-text-light);
+  margin-top: 6px;
+  font-weight: 500;
+}
+
+.timer-separator {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--color-gold);
+  animation: flash 1s infinite;
+}
+
+@keyframes flash {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+@media (max-width: 768px) {
+  .countdown-section {
+    padding: 40px 24px;
+    margin: 40px auto;
+  }
+  .countdown-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    text-align: center;
+  }
+  .countdown-content {
+    align-items: center;
+  }
+  .countdown-timer-container {
+    gap: 8px;
+  }
+  .timer-box {
+    min-width: 65px;
+    padding: 12px 8px;
+  }
+  .timer-value {
+    font-size: 1.8rem;
+  }
+}

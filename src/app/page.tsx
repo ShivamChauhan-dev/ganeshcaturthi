@@ -6,6 +6,7 @@ import React, { useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import MantraTicker from "./components/MantraTicker";
+import Countdown from "./components/Countdown";
 import About from "./components/About";
 import Collection from "./components/Collection";
 import WhyChooseUs from "./components/WhyChooseUs";
@@ -155,6 +156,14 @@ const T = {
     deliveryOptionHome: "Home Delivery",
     checkoutConfirmText: "Your order details have been saved. Below is your summary receipt:",
     
+    countdownTitle: "Ganesh Chaturthi 2026 Countdown",
+    countdownSubtitle: "Days left for Bappa's arrival!",
+    countdownDateLabel: "Starting Monday, 14 September 2026",
+    countdownDays: "Days",
+    countdownHours: "Hours",
+    countdownMinutes: "Minutes",
+    countdownSeconds: "Seconds",
+    
     products: {
       m1: { title: "Lalbaugcha Raja Style Grand Idol", size: "3 Feet", price: "₹4,500", priceVal: 4500, badge: "Most Popular" },
       m2: { title: "Dagdusheth Halwai Style Shadu Mati Idol", size: "2 Feet", price: "₹3,500", priceVal: 3500, badge: "100% Eco-Friendly" },
@@ -276,6 +285,14 @@ const T = {
     deliveryOptionSelf: "स्वयं पिकअप (हनुमान मंदिर रोड)",
     deliveryOptionHome: "होम डिलीवरी",
     checkoutConfirmText: "आपके ऑर्डर की जानकारी सहेज ली गई है। आपकी रसीद का विवरण नीचे है:",
+    
+    countdownTitle: "गणेश चतुर्थी 2026 उलटी गिनती",
+    countdownSubtitle: "बप्पा के आगमन में बचा समय!",
+    countdownDateLabel: "सोमवार, 14 सितंबर 2026 से प्रारंभ",
+    countdownDays: "दिन",
+    countdownHours: "घंटे",
+    countdownMinutes: "मिनट",
+    countdownSeconds: "सेकंड",
     
     products: {
       m1: { title: "लालबाग राजा स्वरूप भव्य मूर्ती", size: "3 Feet", price: "₹4,500", priceVal: 4500, badge: "सर्वाधिक लोकप्रिय" },
@@ -425,6 +442,8 @@ export default function Home() {
       />
       
       <MantraTicker lang={lang} />
+      
+      <Countdown lang={lang} T={T} />
       
       <About lang={lang} T={T} />
       
