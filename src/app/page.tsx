@@ -14,7 +14,11 @@ import {
   MessageCircle, 
   Calendar, 
   Sparkles,
-  CheckCircle2
+  CheckCircle2,
+  ShoppingBag,
+  Trash2,
+  Plus,
+  Minus
 } from "lucide-react";
 
 // Product Collection ID-based structure
@@ -22,6 +26,14 @@ interface MurtiItem {
   id: "m1" | "m2" | "m3" | "m4" | "m5" | "m6";
   category: "all" | "eco" | "small" | "medium" | "large";
   image: string;
+}
+
+// Shopping Cart Item structure
+interface CartItem {
+  id: "m1" | "m2" | "m3" | "m4" | "m5" | "m6";
+  image: string;
+  quantity: number;
+  priceVal: number;
 }
 
 const MURTI_COLLECTION: MurtiItem[] = [
@@ -32,6 +44,16 @@ const MURTI_COLLECTION: MurtiItem[] = [
   { id: "m5", category: "medium", image: "/collection_ganesha_one.png" },
   { id: "m6", category: "large", image: "/collection_ganesha_two.png" }
 ];
+
+// Price mapping for mathematical calculations
+const PRICE_MAP = {
+  m1: 4500,
+  m2: 3500,
+  m3: 12500,
+  m4: 2200,
+  m5: 6800,
+  m6: 9500
+};
 
 // Bilingual translation dictionary
 const T = {
@@ -65,7 +87,7 @@ const T = {
     filterLarge: "Large Size (4+ Ft)",
     cardSize: "Size",
     cardPrice: "Price",
-    cardBtn: "Book Now",
+    cardBtn: "Add to Cart",
     customOrderBtn: "Order Custom Size",
     
     whySub: "Features",
@@ -105,11 +127,9 @@ const T = {
     footerCopyright: "© 2026 Shree Ganesh Murti Bhandar. All Rights Reserved.",
     footerDevBy: "Designed & Developed: Next.js Traditional Application",
     
-    modalTitle: "Book Your Bappa Idol",
+    modalTitle: "Checkout Your Order",
     labelName: "Your Name *",
     labelPhone: "Phone Number (WhatsApp) *",
-    labelMurtiType: "Preferred Murti Style *",
-    labelSize: "Preferred Size *",
     labelDelivery: "Do you need home delivery? *",
     labelAddress: "Complete Delivery Address *",
     labelNotes: "Special Instructions / Custom Requests (Optional)",
@@ -120,20 +140,34 @@ const T = {
     selectChoose: "Select...",
     deliveryNo: "No, I will pick it up myself",
     deliveryYes: "Yes, deliver to home / pandal",
-    submitBtn: "Submit Booking",
+    submitBtn: "Place Order",
     
-    successHeading: "Booking Submitted Successfully!",
-    successText: "Thank you {name}! We have recorded your booking. Our team will contact you shortly on your mobile number {phone} for details and token money confirmation.",
+    successHeading: "Order Submitted Successfully!",
+    successText: "Thank you <strong>{name}</strong>! We have received your order. Our team will contact you shortly on <strong>{phone}</strong> to confirm your order details and token booking payment.",
     successBappa: "|| Ganpati Bappa Morya ||",
     successBtn: "Okay",
     
+    cartTitle: "Your Cart",
+    cartEmpty: "Your shopping cart is empty.",
+    cartSubtotal: "Cart Subtotal",
+    checkoutBtn: "Proceed to Checkout",
+    wishlistBadge: "Wishlist",
+    itemsCount: "items",
+    
+    checkoutSuccessMsg: "Order Confirmed!",
+    orderIdLabel: "Order ID",
+    deliveryOptionLabel: "Delivery Mode",
+    deliveryOptionSelf: "Self Pickup",
+    deliveryOptionHome: "Home Delivery",
+    checkoutConfirmText: "Your order details have been saved. Below is your summary receipt:",
+    
     products: {
-      m1: { title: "Lalbaugcha Raja Style Grand Idol", size: "3 Feet", price: "₹4,500", badge: "Most Popular" },
-      m2: { title: "Dagdusheth Halwai Style Shadu Mati Idol", size: "2 Feet", price: "₹3,500", badge: "100% Eco-Friendly" },
-      m3: { title: "Chintamani Style Grand Ganesha", size: "5 Feet", price: "₹12,500", badge: "Limited Collection" },
-      m4: { title: "Traditional Siddhivinayak Bal Ganesha", size: "1.5 Feet", price: "₹2,200", badge: "" },
-      m5: { title: "Beautiful Peacock Throne Ganesha", size: "3.5 Feet", price: "₹6,800", badge: "" },
-      m6: { title: "Vighnaharta Raja Style Clay Idol", size: "4 Feet", price: "₹9,500", badge: "Exquisite Carving" }
+      m1: { title: "Lalbaugcha Raja Style Grand Idol", size: "3 Feet", price: "₹4,500", priceVal: 4500, badge: "Most Popular" },
+      m2: { title: "Dagdusheth Halwai Style Shadu Mati Idol", size: "2 Feet", price: "₹3,500", priceVal: 3500, badge: "100% Eco-Friendly" },
+      m3: { title: "Chintamani Style Grand Ganesha", size: "5 Feet", price: "₹12,500", priceVal: 12500, badge: "Limited Collection" },
+      m4: { title: "Traditional Siddhivinayak Bal Ganesha", size: "1.5 Feet", price: "₹2,200", priceVal: 2200, badge: "" },
+      m5: { title: "Beautiful Peacock Throne Ganesha", size: "3.5 Feet", price: "₹6,800", priceVal: 6800, badge: "" },
+      m6: { title: "Vighnaharta Raja Style Clay Idol", size: "4 Feet", price: "₹9,500", priceVal: 9500, badge: "Exquisite Carving" }
     },
     
     gallery: {
@@ -153,6 +187,7 @@ const T = {
     navServices: "सेवाएँ",
     navContact: "संपर्क करें",
     bookNow: "बुक करें",
+    
     heroBadge: "गणेश उत्सव 2026",
     heroTitleHi: "श्री गणेश",
     heroTitleSub: "मूर्ति भंडार",
@@ -174,7 +209,7 @@ const T = {
     filterLarge: "बड़े आकार (4+ Ft)",
     cardSize: "आकार",
     cardPrice: "कीमत",
-    cardBtn: "अभी बुक करें",
+    cardBtn: "कार्ट में जोड़ें",
     customOrderBtn: "विशेष आकार ऑर्डर करें",
     
     whySub: "विशेषताएँ",
@@ -214,11 +249,9 @@ const T = {
     footerCopyright: "© 2026 श्री गणेश मूर्ति भंडार। सभी अधिकार सुरक्षित।",
     footerDevBy: "डिज़ाइन एवं विकसित: Next.js Traditional Application",
     
-    modalTitle: "बप्पा की मूर्ति बुक करें",
+    modalTitle: "ऑर्डर सबमिट करें",
     labelName: "आपका नाम *",
     labelPhone: "मोबाइल नंबर (WhatsApp) *",
-    labelMurtiType: "पसंदीदा मूर्ती का प्रकार *",
-    labelSize: "पसंदीदा आकार *",
     labelDelivery: "क्या आपको होम डिलीवरी चाहिए? *",
     labelAddress: "डिलीवरी का पूरा पता *",
     labelNotes: "विशेष निर्देश या अन्य विवरण (वैकल्पिक)",
@@ -229,20 +262,34 @@ const T = {
     selectChoose: "चुनें...",
     deliveryNo: "नहीं, मैं खुद मूर्ति लेने आऊंगा",
     deliveryYes: "हाँ, पंडाल / निवास स्थल पर डिलीवरी चाहिए",
-    submitBtn: "बुकिंग सबमिट करें",
+    submitBtn: "ऑर्डर सबमिट करें",
     
-    successHeading: "बुकिंग सफलतापूर्वक प्राप्त हुई!",
-    successText: "धन्यवाद {name} जी! हमने आपकी बुकिंग दर्ज कर ली है। हमारी टीम जल्द ही आपसे आपके मोबाइल नंबर {phone} पर विवरण और बुकिंग राशि (Token money) की पुष्टि के लिए संपर्क करेगी।",
+    successHeading: "ऑर्डर सफलतापूर्वक दर्ज हुआ!",
+    successText: "धन्यवाद <strong>{name}</strong> जी! हमने आपका ऑर्डर प्राप्त कर लिया है। हमारी टीम जल्द ही आपसे आपके मोबाइल नंबर <strong>{phone}</strong> पर विवरण और बुकिंग राशि (Token money) की पुष्टि के लिए संपर्क करेगी।",
     successBappa: "॥ गणपति बप्पा मोरया ॥",
     successBtn: "ठीक है",
     
+    cartTitle: "आपका कार्ट",
+    cartEmpty: "आपका शॉपिंग कार्ट खाली है।",
+    cartSubtotal: "कार्ट कुल योग",
+    checkoutBtn: "चेकआउट करें",
+    wishlistBadge: "इच्छा सूची",
+    itemsCount: "मूर्तियां",
+    
+    checkoutSuccessMsg: "ऑर्डर की पुष्टि हो गई है!",
+    orderIdLabel: "ऑर्डर आईडी",
+    deliveryOptionLabel: "डिलीवरी का प्रकार",
+    deliveryOptionSelf: "स्वयं पिकअप (हनुमान मंदिर रोड)",
+    deliveryOptionHome: "होम डिलीवरी",
+    checkoutConfirmText: "आपके ऑर्डर की जानकारी सहेज ली गई है। आपकी रसीद का विवरण नीचे है:",
+    
     products: {
-      m1: { title: "लालबाग राजा स्वरूप भव्य मूर्ती", size: "3 Feet", price: "₹4,500", badge: "सर्वाधिक लोकप्रिय" },
-      m2: { title: "दगड़ूशेठ हलवाई स्वरूप शाडू माटी मूर्ती", size: "2 Feet", price: "₹3,500", badge: "100% इको-फ्रेंडली" },
-      m3: { title: "भव्य चिंतामणि स्वरूप गणेश मूर्ती", size: "5 Feet", price: "₹12,500", badge: "सीमित संग्रह" },
-      m4: { title: "पारंपरिक सिद्धिविनायक बाल गणेश", size: "1.5 Feet", price: "₹2,200", badge: "" },
-      m5: { title: "सुंदर मयूर आसन गणेश मूर्ती", size: "3.5 Feet", price: "₹6,800", badge: "" },
-      m6: { title: "विघ्नहर्ता राजा स्वरूप मिट्टी मूर्ती", size: "4 Feet", price: "₹9,500", badge: "विशिष्ट नक्काशी" }
+      m1: { title: "लालबाग राजा स्वरूप भव्य मूर्ती", size: "3 Feet", price: "₹4,500", priceVal: 4500, badge: "सर्वाधिक लोकप्रिय" },
+      m2: { title: "दगड़ूशेठ हलवाई स्वरूप शाडू माटी मूर्ती", size: "2 Feet", price: "₹3,500", priceVal: 3500, badge: "100% इको-फ्रेंडली" },
+      m3: { title: "भव्य चिंतामणि स्वरूप गणेश मूर्ती", size: "5 Feet", price: "₹12,500", priceVal: 12500, badge: "सीमित संग्रह" },
+      m4: { title: "पारंपरिक सिद्धिविनायक बाल गणेश", size: "1.5 Feet", price: "₹2,200", priceVal: 2200, badge: "" },
+      m5: { title: "सुंदर मयूर आसन गणेश मूर्ती", size: "3.5 Feet", price: "₹6,800", priceVal: 6800, badge: "" },
+      m6: { title: "विघ्नहर्ता राजा स्वरूप मिट्टी मूर्ती", size: "4 Feet", price: "₹9,500", priceVal: 9500, badge: "विशिष्ट नक्काशी" }
     },
     
     gallery: {
@@ -260,7 +307,7 @@ export default function Home() {
   // Language Switch State - Default English as requested
   const [lang, setLang] = useState<"en" | "hi">("en");
   
-  // Prevent SSR hydration mismatch for random animation values
+  // Mounted State to resolve Next.js SSR hydration mismatch
   const [isMounted, setIsMounted] = useState(false);
   useEffect(() => {
     setIsMounted(true);
@@ -272,32 +319,60 @@ export default function Home() {
   // Category Filtering State
   const [activeCategory, setActiveCategory] = useState<string>("all");
   
-  // Booking Dialog State
-  const [isBookingOpen, setIsBookingOpen] = useState(false);
-  const [selectedMurti, setSelectedMurti] = useState<{title: string, size: string} | null>(null);
+  // E-COMMERCE STATES
+  const [cart, setCart] = useState<CartItem[]>([]);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [wishlist, setWishlist] = useState<string[]>([]);
   
-  // Form Submission States
+  // Checkout Modal State
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
-    murtiType: "",
-    size: "",
     delivery: "no",
     address: "",
     notes: ""
   });
-  const [bookingSuccess, setBookingSuccess] = useState(false);
+  const [orderId, setOrderId] = useState("");
+  const [checkoutSuccess, setCheckoutSuccess] = useState(false);
 
-  // Auto-fill form details if user clicked specific murti booking
-  useEffect(() => {
-    if (selectedMurti) {
-      setFormData(prev => ({
-        ...prev,
-        murtiType: selectedMurti.title,
-        size: selectedMurti.size
-      }));
-    }
-  }, [selectedMurti]);
+  // E-commerce handlers
+  const addToCart = (id: "m1" | "m2" | "m3" | "m4" | "m5" | "m6") => {
+    setCart(prev => {
+      const exists = prev.find(item => item.id === id);
+      if (exists) {
+        return prev.map(item => item.id === id ? { ...item, quantity: item.quantity + 1 } : item);
+      }
+      return [...prev, { id, image: MURTI_COLLECTION.find(m => m.id === id)!.image, quantity: 1, priceVal: PRICE_MAP[id] }];
+    });
+    setIsCartOpen(true);
+  };
+
+  const updateQuantity = (id: "m1" | "m2" | "m3" | "m4" | "m5" | "m6", change: number) => {
+    setCart(prev => prev.map(item => {
+      if (item.id === id) {
+        const newQty = item.quantity + change;
+        return newQty > 0 ? { ...item, quantity: newQty } : item;
+      }
+      return item;
+    }));
+  };
+
+  const removeFromCart = (id: "m1" | "m2" | "m3" | "m4" | "m5" | "m6") => {
+    setCart(prev => prev.filter(item => item.id !== id));
+  };
+
+  const toggleWishlist = (id: string) => {
+    setWishlist(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]);
+  };
+
+  const calculateSubtotal = () => {
+    return cart.reduce((sum, item) => sum + (item.priceVal * item.quantity), 0);
+  };
+
+  const getCartItemsCount = () => {
+    return cart.reduce((sum, item) => sum + item.quantity, 0);
+  };
 
   // Handle Form Change
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -305,39 +380,33 @@ export default function Home() {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  // Handle Form Submit
-  const handleSubmit = (e: React.FormEvent) => {
+  // Handle Order Submit
+  const handleCheckoutSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setBookingSuccess(true);
-    setTimeout(() => {
-      // Clean up form states
-      setFormData({
-        name: "",
-        phone: "",
-        murtiType: "",
-        size: "",
-        delivery: "no",
-        address: "",
-        notes: ""
-      });
-    }, 4000);
+    // Generate order ID
+    const randomNum = Math.floor(1000 + Math.random() * 9000);
+    setOrderId(`G-2026-X${randomNum}`);
+    setCheckoutSuccess(true);
+  };
+
+  // Close order completion dialog and reset cart
+  const handleOrderSuccessClose = () => {
+    setIsCheckoutOpen(false);
+    setCheckoutSuccess(false);
+    setCart([]); // Empty cart on successful order placement
+    setFormData({
+      name: "",
+      phone: "",
+      delivery: "no",
+      address: "",
+      notes: ""
+    });
   };
 
   // Filtered Collection
   const filteredMurtis = activeCategory === "all" 
     ? MURTI_COLLECTION 
     : MURTI_COLLECTION.filter(item => item.category === activeCategory);
-
-  // Trigger Booking Modal
-  const openBooking = (murti?: {title: string, size: string}) => {
-    if (murti) {
-      setSelectedMurti(murti);
-    } else {
-      setSelectedMurti(null);
-    }
-    setBookingSuccess(false);
-    setIsBookingOpen(true);
-  };
 
   // Dynamic formatting for the success text
   const getSuccessMessage = () => {
@@ -381,8 +450,8 @@ export default function Home() {
             </ul>
           </nav>
 
-          {/* Actions: Switcher & Booking CTA */}
-          <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+          {/* Actions: Switcher, Wishlist & Cart badges */}
+          <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
             <button 
               onClick={() => setLang(lang === "en" ? "hi" : "en")} 
               className="lang-switcher-btn"
@@ -396,9 +465,29 @@ export default function Home() {
               {lang === "en" ? "हिन्दी" : "English"}
             </button>
 
-            <button onClick={() => openBooking()} className="nav-cta-btn">
-              {T[lang].bookNow}
-            </button>
+            {/* Wishlist Button */}
+            <div className="nav-action-btn-wrapper">
+              <button 
+                onClick={() => setActiveCategory("all")} 
+                style={{ background: "none", border: "none", color: "var(--color-maroon)", cursor: "pointer", display: "flex", alignItems: "center" }}
+                aria-label="View Wishlist"
+              >
+                <Heart size={24} fill={wishlist.length > 0 ? "currentColor" : "none"} />
+                {wishlist.length > 0 && <span className="nav-badge">{wishlist.length}</span>}
+              </button>
+            </div>
+
+            {/* Shopping Cart Button */}
+            <div className="nav-action-btn-wrapper">
+              <button 
+                onClick={() => setIsCartOpen(true)}
+                style={{ background: "none", border: "none", color: "var(--color-maroon)", cursor: "pointer", display: "flex", alignItems: "center" }}
+                aria-label="View Shopping Cart"
+              >
+                <ShoppingBag size={24} />
+                {getCartItemsCount() > 0 && <span className="nav-badge">{getCartItemsCount()}</span>}
+              </button>
+            </div>
           </div>
 
           {/* Hamburger Menu Toggle */}
@@ -450,11 +539,13 @@ export default function Home() {
         <button 
           onClick={() => {
             setIsMobileMenuOpen(false);
-            openBooking();
+            setIsCartOpen(true);
           }} 
           className="nav-cta-btn mobile-cta-btn"
+          style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px" }}
         >
-          {T[lang].bookNow}
+          <ShoppingBag size={18} />
+          {T[lang].cartTitle} ({getCartItemsCount()})
         </button>
       </div>
 
@@ -491,8 +582,8 @@ export default function Home() {
               {T[lang].heroDesc}
             </p>
             <div className="hero-cta-group">
-              <button onClick={() => openBooking()} className="btn-primary">{T[lang].heroCtaPrimary}</button>
-              <a href="#collection" className="btn-secondary">{T[lang].heroCtaSecondary}</a>
+              <a href="#collection" className="btn-primary">{T[lang].heroCtaPrimary}</a>
+              <a href="#about" className="btn-secondary">{T[lang].navAbout}</a>
             </div>
           </div>
 
@@ -593,8 +684,18 @@ export default function Home() {
           <div className="collection-grid">
             {filteredMurtis.map((item) => {
               const details = T[lang].products[item.id];
+              const isWishlisted = wishlist.includes(item.id);
               return (
-                <div key={item.id} className="collection-card">
+                <div key={item.id} className="collection-card" style={{ position: "relative" }}>
+                  {/* Wishlist Heart Button */}
+                  <button 
+                    onClick={() => toggleWishlist(item.id)} 
+                    className={`wishlist-heart-btn ${isWishlisted ? "active" : ""}`}
+                    aria-label="Toggle Wishlist"
+                  >
+                    <Heart size={20} fill={isWishlisted ? "currentColor" : "none"} />
+                  </button>
+
                   <div className="card-img-wrapper">
                     {details.badge && <span className="card-badge">{details.badge}</span>}
                     <Image 
@@ -611,10 +712,11 @@ export default function Home() {
                       <span className="card-price">{details.price}</span>
                     </div>
                     <button 
-                      onClick={() => openBooking({ title: details.title, size: details.size })}
+                      onClick={() => addToCart(item.id)}
                       className="form-submit-btn"
-                      style={{ padding: "8px 16px", fontSize: "0.9rem", marginTop: "16px" }}
+                      style={{ padding: "10px 16px", fontSize: "0.95rem", marginTop: "16px", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px" }}
                     >
+                      <ShoppingBag size={16} />
                       {T[lang].cardBtn}
                     </button>
                   </div>
@@ -624,7 +726,7 @@ export default function Home() {
           </div>
 
           <div className="collection-center-cta">
-            <button onClick={() => openBooking()} className="btn-primary">{T[lang].customOrderBtn}</button>
+            <a href="#contact" className="btn-secondary">{T[lang].customOrderBtn}</a>
           </div>
         </div>
       </section>
@@ -775,7 +877,7 @@ export default function Home() {
               </div>
             </div>
 
-            <button onClick={() => openBooking()} className="btn-primary">{T[lang].srvContactBtn}</button>
+            <a href="#collection" className="btn-primary">{T[lang].navCollection}</a>
           </div>
 
           <div className="services-img-container">
@@ -874,24 +976,110 @@ export default function Home() {
         </div>
       </footer>
 
-      {/* BOOKING MODAL DIALOG */}
-      {isBookingOpen && (
-        <div className="modal-overlay" onClick={() => setIsBookingOpen(false)}>
+      {/* SHOPPING CART DRAWER */}
+      <div 
+        className={`cart-overlay ${isCartOpen ? "open" : ""}`} 
+        onClick={() => setIsCartOpen(false)}
+      />
+      <div className={`cart-drawer ${isCartOpen ? "open" : ""}`}>
+        <div className="cart-header">
+          <div className="cart-title-box">
+            <ShoppingBag size={20} />
+            <span>{T[lang].cartTitle}</span>
+            <span style={{ fontSize: "0.85rem", opacity: 0.9 }}>
+              ({getCartItemsCount()} {T[lang].itemsCount})
+            </span>
+          </div>
+          <button 
+            onClick={() => setIsCartOpen(false)} 
+            style={{ background: "none", border: "none", color: "var(--color-white)", cursor: "pointer", display: "flex", alignItems: "center" }}
+            aria-label="Close cart drawer"
+          >
+            <X size={24} />
+          </button>
+        </div>
+
+        <div className="cart-body">
+          {cart.length === 0 ? (
+            <p className="cart-empty-msg">{T[lang].cartEmpty}</p>
+          ) : (
+            cart.map((item) => {
+              const details = T[lang].products[item.id];
+              return (
+                <div key={item.id} className="cart-item">
+                  <div className="cart-item-img">
+                    <Image src={item.image} alt={details.title} fill style={{ objectFit: "cover" }} />
+                  </div>
+                  <div className="cart-item-details">
+                    <h4 className="cart-item-title">{details.title}</h4>
+                    <span className="cart-item-meta">{T[lang].cardSize}: {details.size}</span>
+                    
+                    <div className="cart-item-actions">
+                      <div className="cart-qty-ctrl">
+                        <button onClick={() => updateQuantity(item.id, -1)} className="cart-qty-btn">
+                          <Minus size={14} />
+                        </button>
+                        <span className="cart-qty-val">{item.quantity}</span>
+                        <button onClick={() => updateQuantity(item.id, 1)} className="cart-qty-btn">
+                          <Plus size={14} />
+                        </button>
+                      </div>
+                      <span className="cart-item-price">
+                        ₹{(item.priceVal * item.quantity).toLocaleString("en-IN")}
+                      </span>
+                      <button onClick={() => removeFromCart(item.id)} className="cart-remove-btn" aria-label="Remove item">
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          )}
+        </div>
+
+        {cart.length > 0 && (
+          <div className="cart-footer">
+            <div className="cart-summary-row">
+              <span>{T[lang].cartSubtotal}:</span>
+              <span style={{ color: "var(--color-maroon)", fontSize: "1.3rem" }}>
+                ₹{calculateSubtotal().toLocaleString("en-IN")}
+              </span>
+            </div>
+            <button 
+              onClick={() => {
+                setIsCartOpen(false);
+                setIsCheckoutOpen(true);
+              }}
+              className="form-submit-btn"
+              style={{ padding: "14px" }}
+            >
+              {T[lang].checkoutBtn}
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* CHECKOUT MODAL DIALOG */}
+      {isCheckoutOpen && (
+        <div className="modal-overlay" onClick={handleOrderSuccessClose}>
           <div className="modal-container" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
-              <h3 className="modal-title">{T[lang].modalTitle}</h3>
+              <h3 className="modal-title">
+                {!checkoutSuccess ? T[lang].modalTitle : T[lang].checkoutSuccessMsg}
+              </h3>
               <button 
-                onClick={() => setIsBookingOpen(false)} 
+                onClick={handleOrderSuccessClose} 
                 className="modal-close-btn"
-                aria-label="Close booking modal"
+                aria-label="Close modal"
               >
                 <X size={24} />
               </button>
             </div>
             
             <div className="modal-body">
-              {!bookingSuccess ? (
-                <form onSubmit={handleSubmit}>
+              {!checkoutSuccess ? (
+                <form onSubmit={handleCheckoutSubmit}>
                   <div className="form-group">
                     <label className="form-label">{T[lang].labelName}</label>
                     <input 
@@ -916,46 +1104,6 @@ export default function Home() {
                       required 
                       className="form-input"
                     />
-                  </div>
-
-                  <div className="form-group">
-                    <label className="form-label">{T[lang].labelMurtiType}</label>
-                    <select 
-                      name="murtiType" 
-                      value={formData.murtiType} 
-                      onChange={handleInputChange} 
-                      required
-                      className="form-select"
-                    >
-                      <option value="">{T[lang].selectChoose}</option>
-                      <option value={T[lang].products.m1.title}>{T[lang].products.m1.title}</option>
-                      <option value={T[lang].products.m2.title}>{T[lang].products.m2.title}</option>
-                      <option value={T[lang].products.m3.title}>{T[lang].products.m3.title}</option>
-                      <option value={T[lang].products.m4.title}>{T[lang].products.m4.title}</option>
-                      <option value={T[lang].products.m5.title}>{T[lang].products.m5.title}</option>
-                      <option value={T[lang].products.m6.title}>{T[lang].products.m6.title}</option>
-                      <option value="Special Custom Design Option">{lang === "en" ? "Other / Custom Style Request" : "अन्य / विशेष स्वरूप ऑर्डर"}</option>
-                    </select>
-                  </div>
-
-                  <div className="form-group">
-                    <label className="form-label">{T[lang].labelSize}</label>
-                    <select 
-                      name="size" 
-                      value={formData.size} 
-                      onChange={handleInputChange} 
-                      required
-                      className="form-select"
-                    >
-                      <option value="">{T[lang].selectChoose}</option>
-                      <option value="1.5 Feet">1.5 Feet {lang === "en" ? "(Small)" : "(छोटा आकार)"}</option>
-                      <option value="2 Feet">2 Feet {lang === "en" ? "(Small)" : "(छोटा आकार)"}</option>
-                      <option value="3 Feet">3 Feet {lang === "en" ? "(Medium)" : "(मध्यम आकार)"}</option>
-                      <option value="3.5 Feet">3.5 Feet {lang === "en" ? "(Medium)" : "(मध्यम आकार)"}</option>
-                      <option value="4 Feet">4 Feet {lang === "en" ? "(Large)" : "(बड़ा आकार)"}</option>
-                      <option value="5 Feet">5 Feet {lang === "en" ? "(Large)" : "(बड़ा आकार)"}</option>
-                      <option value="Custom Size Request">{lang === "en" ? "Other Custom Size" : "अन्य विशेष आकार"}</option>
-                    </select>
                   </div>
 
                   <div className="form-group">
@@ -1007,11 +1155,43 @@ export default function Home() {
                   </div>
                   <h4 className="success-heading">{T[lang].successHeading}</h4>
                   <p className="success-message" dangerouslySetInnerHTML={{ __html: getSuccessMessage() }} />
-                  <p style={{ marginTop: "20px", fontWeight: "bold", color: "var(--color-gold-dark)", fontFamily: "var(--font-hindi)", fontSize: "1.2rem" }}>
+                  
+                  {/* ORDER INVOICE RECEIPT */}
+                  <div className="checkout-success-container">
+                    <p style={{ fontWeight: 700, borderBottom: "1px solid rgba(138, 21, 21, 0.15)", paddingBottom: "8px", marginBottom: "8px", color: "var(--color-maroon)" }}>
+                      {T[lang].checkoutConfirmText}
+                    </p>
+                    <div className="checkout-receipt-row">
+                      <span><strong>{T[lang].orderIdLabel}:</strong></span>
+                      <span><strong>{orderId}</strong></span>
+                    </div>
+                    <div className="checkout-receipt-row">
+                      <span>{T[lang].deliveryOptionLabel}:</span>
+                      <span>{formData.delivery === "yes" ? T[lang].deliveryOptionHome : T[lang].deliveryOptionSelf}</span>
+                    </div>
+                    
+                    <div style={{ margin: "8px 0" }}>
+                      <p style={{ fontSize: "0.85rem", fontWeight: 600, color: "var(--color-text-light)", marginBottom: "4px" }}>Items ordered:</p>
+                      {cart.map(item => (
+                        <div key={item.id} style={{ display: "flex", justifyContent: "space-between", fontSize: "0.85rem", padding: "2px 0" }}>
+                          <span>{T[lang].products[item.id].title} (x{item.quantity})</span>
+                          <span>₹{(item.priceVal * item.quantity).toLocaleString("en-IN")}</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="checkout-receipt-row" style={{ borderTop: "2px dashed rgba(138, 21, 21, 0.2)", borderBottom: "none", paddingTop: "8px", fontWeight: "bold", fontSize: "1rem" }}>
+                      <span>{T[lang].cartSubtotal}:</span>
+                      <span style={{ color: "var(--color-maroon)" }}>₹{calculateSubtotal().toLocaleString("en-IN")}</span>
+                    </div>
+                  </div>
+
+                  <p style={{ marginTop: "24px", fontWeight: "bold", color: "var(--color-gold-dark)", fontFamily: "var(--font-hindi)", fontSize: "1.25rem" }}>
                     {T[lang].successBappa}
                   </p>
+                  
                   <button 
-                    onClick={() => setIsBookingOpen(false)} 
+                    onClick={handleOrderSuccessClose} 
                     className="form-submit-btn" 
                     style={{ marginTop: "24px", maxWidth: "200px" }}
                   >
