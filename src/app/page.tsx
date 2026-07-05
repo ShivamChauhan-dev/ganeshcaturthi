@@ -15,6 +15,7 @@ import Services from "./components/Services";
 import Footer from "./components/Footer";
 import CartDrawer from "./components/CartDrawer";
 import CheckoutModal from "./components/CheckoutModal";
+import FAQ from "./components/FAQ";
 
 // Product Collection ID-based structure
 interface MurtiItem {
@@ -180,7 +181,32 @@ const T = {
       img4: "Decorated for Installation",
       img5: "Fine Clay Carving Artistry",
       img6: "Safe Transport Service"
-    }
+    },
+    
+    faqSub: "FAQ",
+    faqTitle: "Frequently Asked Questions",
+    faqsList: [
+      {
+        q: "What makes your Ganesha Murtis eco-friendly?",
+        a: "Our idols are 100% eco-friendly because they are hand-sculpted from pure Shadu Mati (natural clay) and painted using non-toxic, chemical-free organic pigments and turmeric colors. They dissolve completely in water during home Visarjan within a few hours."
+      },
+      {
+        q: "Do you offer Ganesha Murti online booking and safe home delivery?",
+        a: "Yes! You can complete your Ganesha Murti booking online through our storefront. We offer safe and guaranteed doorstep delivery in specialized cushioned vehicles across Mumbai, Pune, Thane, and nearby regions directly to your home or pandal."
+      },
+      {
+        q: "Which direction should the Ganesha Murti face in my home temple?",
+        a: "According to Vastu Shastra, placing the Ganesha Idol facing the North direction is highly auspicious, as the North is ruled by Lord Shiva. Alternatively, placing it facing East is also beneficial. Avoid placing the idol facing South."
+      },
+      {
+        q: "What is the difference between Shadu Mati (Clay) and POP (Plaster of Paris) idols?",
+        a: "Shadu Mati is natural, biodegradable river clay that dissolves easily in water, nurturing aquatic life. Plaster of Paris (POP) contains harmful chemicals and plaster that do not dissolve in water for years, causing severe aquatic pollution."
+      },
+      {
+        q: "Do you offer customized designs like Lalbaugcha Raja or Dagdusheth style?",
+        a: "Yes! We specialize in custom Ganesha statues, including Lalbaugcha Raja style, Dagdusheth Halwai style, Chintamani style, and traditional Bal Ganesha designs. You can request customized heights and colors during booking."
+      }
+    ]
   },
   hi: {
     navHome: "होम",
@@ -310,7 +336,32 @@ const T = {
       img4: "स्थापना हेतु सुसज्जित",
       img5: "बारीक मिट्टी नक्काशी कला",
       img6: "सुरक्षित ट्रांसपोर्ट सेवा"
-    }
+    },
+    
+    faqSub: "एफएक्यू (FAQ)",
+    faqTitle: "अक्सर पूछे जाने वाले प्रश्न",
+    faqsList: [
+      {
+        q: "आपकी गणेश मूर्तियां पर्यावरण के अनुकूल (Eco-Friendly) कैसे हैं?",
+        a: "हमारी सभी मूर्तियां 100% प्राकृतिक शाडू माटी (नदी की प्राकृतिक मिट्टी) से हाथ द्वारा बनाई जाती हैं और उनमें केवल जैविक व रासायनिक-मुक्त प्राकृतिक रंगों का उपयोग किया जाता है। ये मूर्तियां घर पर विसर्जन करने पर कुछ ही घंटों में पानी में पूरी तरह घुल जाती हैं।"
+      },
+      {
+        q: "क्या आप गणेश मूर्ति की ऑनलाइन बुकिंग और सुरक्षित होम डिलीवरी देते हैं?",
+        a: "जी हाँ! आप हमारी वेबसाइट से घर बैठे ही गणपति मूर्ति की ऑनलाइन बुकिंग कर सकते हैं। हम सुरक्षित रूप से विशेष गद्देदार वाहनों में बप्पा को मुंबई, पुणे, ठाणे और आसपास के क्षेत्रों में सीधे आपके घर या पंडाल स्थल पर सुरक्षित रूप से पहुँचाते हैं।"
+      },
+      {
+        q: "वास्तु के अनुसार गणेश मूर्ति को घर में किस दिशा में स्थापित करना चाहिए?",
+        a: "वास्तु शास्त्र के अनुसार, गणेश मूर्ति को उत्तर दिशा (North direction) की ओर मुख करके स्थापित करना सर्वश्रेष्ठ माना जाता है क्योंकि उत्तर दिशा भगवान शिव की होती है। इसके अलावा पूर्व दिशा (East) में भी बप्पा की स्थापना की जा सकती है।"
+      },
+      {
+        q: "शाडू माटी (Clay) और पीओपी (Plaster of Paris) मूर्तियों में क्या अंतर है?",
+        a: "शाडू माटी पूरी तरह से प्राकृतिक और विसर्जन के अनुकूल है जो विसर्जन के बाद तुरंत मिट्टी बन जाती है। जबकि प्लास्टर ऑफ पेरिस (POP) रासायनिक तत्वों से बनी होती है जो पानी में सालों तक नहीं घुलती और पर्यावरण को प्रदूषित करती है।"
+      },
+      {
+        q: "क्या आपके पास लालबागचा राजा या दगडूशेठ हलवाई शैली की मूर्तियां उपलब्ध हैं?",
+        a: "जी हाँ! हमारे पास लालबागचा राजा स्वरूप, दगडूशेठ हलवाई स्वरूप, चिंतामणि और बाल गणेश स्वरूप की विभिन्न इको-फ्रेंडली प्रतिमाएं उपलब्ध हैं। आप बुकिंग के समय मूर्ति के रंग व आसन में भी बदलाव के लिए निर्देश दे सकते हैं।"
+      }
+    ]
   }
 };
 
@@ -463,6 +514,8 @@ export default function Home() {
       <Gallery lang={lang} T={T} />
       
       <Services lang={lang} T={T} />
+      
+      <FAQ lang={lang} T={T} />
       
       <Footer lang={lang} T={T} />
       
