@@ -16,6 +16,7 @@ import Footer from "./components/Footer";
 import CartDrawer from "./components/CartDrawer";
 import CheckoutModal from "./components/CheckoutModal";
 import FAQ from "./components/FAQ";
+import Reviews from "./components/Reviews";
 
 // Product Collection ID-based structure
 interface MurtiItem {
@@ -166,13 +167,94 @@ const T = {
     countdownSeconds: "Seconds",
     
     products: {
-      m1: { title: "Lalbaugcha Raja Style Grand Idol", size: "3 Feet", price: "₹4,500", priceVal: 4500, badge: "Most Popular" },
-      m2: { title: "Dagdusheth Halwai Style Shadu Mati Idol", size: "2 Feet", price: "₹3,500", priceVal: 3500, badge: "100% Eco-Friendly" },
-      m3: { title: "Chintamani Style Grand Ganesha", size: "5 Feet", price: "₹12,500", priceVal: 12500, badge: "Limited Collection" },
-      m4: { title: "Traditional Siddhivinayak Bal Ganesha", size: "1.5 Feet", price: "₹2,200", priceVal: 2200, badge: "" },
-      m5: { title: "Beautiful Peacock Throne Ganesha", size: "3.5 Feet", price: "₹6,800", priceVal: 6800, badge: "" },
-      m6: { title: "Vighnaharta Raja Style Clay Idol", size: "4 Feet", price: "₹9,500", priceVal: 9500, badge: "Exquisite Carving" }
+      m1: { 
+        title: "Lalbaugcha Raja Style Grand Idol", 
+        size: "3 Feet", 
+        price: "₹4,500", 
+        priceVal: 4500, 
+        badge: "Most Popular",
+        sizeGuideDesc: "Excellent choice for housing society common halls, large home temple setups, or decorative entryways.",
+        ecoProofDesc: "Handcrafted from natural river silt (Shadu clay). Dissolves completely inside a simple household water tub within 3-4 hours. The fertile clay soil residue can be mixed with your home plants."
+      },
+      m2: { 
+        title: "Dagdusheth Halwai Style Shadu Mati Idol", 
+        size: "2 Feet", 
+        price: "₹3,500", 
+        priceVal: 3500, 
+        badge: "100% Eco-Friendly",
+        sizeGuideDesc: "Highly recommended for standard apartment prayer areas, living room showcase counters, or medium office spaces.",
+        ecoProofDesc: "Crafted out of biodegradable organic clay and painted with non-toxic turmeric and vegetable paints. Visarjan takes about 2 hours in a water bucket."
+      },
+      m3: { 
+        title: "Chintamani Style Grand Ganesha", 
+        size: "5 Feet", 
+        price: "₹12,500", 
+        priceVal: 12500, 
+        badge: "Limited Collection",
+        sizeGuideDesc: "Grand large-scale design perfect for corporate offices, community pandals, and spacious duplex lobbies.",
+        ecoProofDesc: "Constructed with internal bamboo support frames instead of metal wires. Dissolves within 5-6 hours in garden water tanks. Zero ecological footprint."
+      },
+      m4: { 
+        title: "Traditional Siddhivinayak Bal Ganesha", 
+        size: "1.5 Feet", 
+        price: "₹2,200", 
+        priceVal: 2200, 
+        badge: "",
+        sizeGuideDesc: "Compact size suitable for small home shrines, study tables, children's rooms, or office reception desks.",
+        ecoProofDesc: "Pure soil construction without chemical additives. Dissolves rapidly within 1.5 hours in home visarjan setups."
+      },
+      m5: { 
+        title: "Beautiful Peacock Throne Ganesha", 
+        size: "3.5 Feet", 
+        price: "₹6,800", 
+        priceVal: 6800, 
+        badge: "",
+        sizeGuideDesc: "Stunning ornate design tailored for premium living rooms, celebratory setups, or drawing room displays.",
+        ecoProofDesc: "Painted entirely with water-soluble organic pigments. Dissolves safely in water within 4 hours."
+      },
+      m6: { 
+        title: "Vighnaharta Raja Style Clay Idol", 
+        size: "4 Feet", 
+        price: "₹9,500", 
+        priceVal: 9500, 
+        badge: "Exquisite Carving",
+        sizeGuideDesc: "Magnificent high-detail design perfect for main halls, festive pandals, and premium bungalows.",
+        ecoProofDesc: "Features intricate organic hand carving. Dissolves inside water containers in 4.5 hours with zero harmful residue."
+      }
     },
+    
+    announcementPromo: "⚡ Advance Booking Open for 2026! Pay 50% token now to confirm & get 20% Early Discount. Code: BAPPA20",
+    verifiedPurchaser: "Verified Purchaser",
+    reviewsSub: "Our Happy Devotees",
+    reviewsTitle: "What Devotees Say About Us",
+    reviewsList: [
+      {
+        text: "The Lalbaugcha Raja style idol was absolutely stunning. It dissolved completely in our home garden tub in under 3 hours, and we used the water for our plants. Highly recommend their Shadu Mati idols!",
+        name: "Aarav Mehta",
+        location: "Andheri, Mumbai"
+      },
+      {
+        text: "Amazing safe delivery service! They delivered the Dagdusheth style idol in a completely cushioned box directly to my apartment. Prompt updates on WhatsApp too.",
+        name: "Priyanka Joshi",
+        location: "Kothrud, Pune"
+      },
+      {
+        text: "Booking online was very seamless. The 50% advance token system is very transparent. Truly chemical-free organic colors and premium finish. Best Ganesha shop!",
+        name: "Rohan Deshmukh",
+        location: "Thane, Maharashtra"
+      }
+    ],
+    productDetailTitle: "Ganesha Murti Specifications",
+    inStock: "Available in Stock (Eco-Friendly)",
+    sizeGuideTitle: "Size & Placement Guide",
+    ecoProofTitle: "100% Eco-Friendly Visarjan",
+    orderOnWhatsapp: "Order on WhatsApp",
+    checkoutAdvanceTitle: "50% Advance Token Payment Required",
+    checkoutAdvanceDesc: "To secure your Ganesha Idol booking for 2026, you only need to pay 50% token money now. The remaining balance is payable on delivery.",
+    deliveryGuarantee: "Guaranteed Safe Punctual Delivery 3 Days Before Chaturthi",
+    upiTitle: "Secure UPI / QR Payment Details",
+    upiDesc: "Please transfer the 50% booking token amount of ₹{amt} using any UPI App (GPay, PhonePe, Paytm, BHIM) to UPI ID: bappa@upi, or pay using the custom QR code shared on WhatsApp.",
+    badgeEcoCertified: "100% Biodegradable",
     
     gallery: {
       img1: "Workshop - Our Idols Being Prepared",
@@ -321,13 +403,94 @@ const T = {
     countdownSeconds: "सेकंड",
     
     products: {
-      m1: { title: "लालबाग राजा स्वरूप भव्य मूर्ती", size: "3 Feet", price: "₹4,500", priceVal: 4500, badge: "सर्वाधिक लोकप्रिय" },
-      m2: { title: "दगड़ूशेठ हलवाई स्वरूप शाडू माटी मूर्ती", size: "2 Feet", price: "₹3,500", priceVal: 3500, badge: "100% इको-फ्रेंडली" },
-      m3: { title: "भव्य चिंतामणि स्वरूप गणेश मूर्ती", size: "5 Feet", price: "₹12,500", priceVal: 12500, badge: "सीमित संग्रह" },
-      m4: { title: "पारंपरिक सिद्धिविनायक बाल गणेश", size: "1.5 Feet", price: "₹2,200", priceVal: 2200, badge: "" },
-      m5: { title: "सुंदर मयूर आसन गणेश मूर्ती", size: "3.5 Feet", price: "₹6,800", priceVal: 6800, badge: "" },
-      m6: { title: "विघ्नहर्ता राजा स्वरूप मिट्टी मूर्ती", size: "4 Feet", price: "₹9,500", priceVal: 9500, badge: "विशिष्ट नक्काशी" }
+      m1: { 
+        title: "लालबाग राजा स्वरूप भव्य मूर्ती", 
+        size: "3 Feet", 
+        price: "₹4,500", 
+        priceVal: 4500, 
+        badge: "सर्वाधिक लोकप्रिय",
+        sizeGuideDesc: "हाउसिंग सोसायटी के सामान्य हॉल, बड़े गृह मंदिर या सजावटी प्रवेश द्वारों के लिए सर्वश्रेष्ठ विकल्प।",
+        ecoProofDesc: "प्राकृतिक नदी की मिट्टी (शाडू माटी) से निर्मित। घर पर साधारण पानी की बाल्टी या टब में 3-4 घंटे में पूरी तरह घुल जाती है। अवशेष मिट्टी का उपयोग आप घर के पौधों में कर सकते हैं।"
+      },
+      m2: { 
+        title: "दगड़ूशेठ हलवाई स्वरूप शाडू माटी मूर्ती", 
+        size: "2 Feet", 
+        price: "₹3,500", 
+        priceVal: 3500, 
+        badge: "100% इको-फ्रेंडली",
+        sizeGuideDesc: "फ्लैट्स के पूजा घरों, लिविंग रूम शोकेस काउंटरों या मध्यम आकार के कार्यालयों के लिए अत्यधिक अनुशंसित।",
+        ecoProofDesc: "बायोडिग्रेडेबल जैविक मिट्टी से निर्मित और हर्बल हल्दी व वनस्पति रंगों से चित्रित। विसर्जन पानी की बाल्टी में लगभग 2 घंटे में पूरा होता है।"
+      },
+      m3: { 
+        title: "भव्य चिंतामणि स्वरूप गणेश मूर्ती", 
+        size: "5 Feet", 
+        price: "₹12,500", 
+        priceVal: 12500, 
+        badge: "सीमित संग्रह",
+        sizeGuideDesc: "कॉर्पोरेट कार्यालयों, सार्वजनिक पंडालों और बड़े विला/डुप्लेक्स के मुख्य हॉल के लिए भव्य और आकर्षक डिजाइन।",
+        ecoProofDesc: "लोहे के तारों की जगह बांस की आंतरिक संरचना का उपयोग। बगीचे के पानी के टैंकों में 5-6 घंटे के भीतर पूरी तरह घुलनशील।"
+      },
+      m4: { 
+        title: "पारंपरिक सिद्धिविनायक बाल गणेश", 
+        size: "1.5 Feet", 
+        price: "₹2,200", 
+        priceVal: 2200, 
+        badge: "",
+        sizeGuideDesc: "छोटे गृह मंदिरों, अध्ययन मेज, बच्चों के कमरे या कार्यालय के स्वागत डेस्क के लिए उपयुक्त कॉम्पैक्ट आकार।",
+        ecoProofDesc: "बिना किसी रासायनिक मिलावट के शुद्ध प्राकृतिक मिट्टी से तैयार। घर पर विसर्जन करने पर केवल 1.5 घंटे में पानी में विलीन।"
+      },
+      m5: { 
+        title: "सुंदर मयूर आसन गणेश मूर्ती", 
+        size: "3.5 Feet", 
+        price: "₹6,800", 
+        priceVal: 6800, 
+        badge: "",
+        sizeGuideDesc: "प्रीमियम ड्राइंग रूम या उत्सव की झांकियों के लिए शानदार नक्काशीदार सजावटी मयूर सिंहासन वाली मूर्ति।",
+        ecoProofDesc: "पूरी तरह से जैविक रंगों से रंगा हुआ। पानी में लगभग 4 घंटे के भीतर सुरक्षित रूप से विसर्जन संपन्न।"
+      },
+      m6: { 
+        title: "विघ्नहर्ता राजा स्वरूप मिट्टी मूर्ती", 
+        size: "4 Feet", 
+        price: "₹9,500", 
+        priceVal: 9500, 
+        badge: "विशिष्ट नक्काशी",
+        sizeGuideDesc: "मुख्य हॉल, सामुदायिक पूजा पंडालों और प्रीमियम बंगलों के लिए उत्तम कलाकृति वाली बड़ी मूर्ति।",
+        ecoProofDesc: "जटिल बारीक नक्काशी वाली शुद्ध शाडू माटी। 4.5 घंटे में बिना किसी हानिकारक कचरे के विसर्जन।"
+      }
     },
+    
+    announcementPromo: "⚡ एडवांस बुकिंग प्रारंभ! अभी केवल 50% टोकन देकर बुकिंग सुनिश्चित करें और पाएं 20% की विशेष छूट। कोड: BAPPA20",
+    verifiedPurchaser: "सत्यापित भक्त",
+    reviewsSub: "भक्तों के अनुभव",
+    reviewsTitle: "जानिए हमारे ग्राहकों की राय",
+    reviewsList: [
+      {
+        text: "लालबाग राजा स्वरूप की मूर्ति बेहद खूबसूरत और दिव्य थी। घर पर विसर्जन करने पर केवल 3 घंटे में यह पानी में पूरी तरह घुल गई और हमने उस पवित्र मिट्टी के पानी को अपने पौधों में डाल दिया। शत-प्रतिशत इको-फ्रेंडली!",
+        name: "आरव मेहता",
+        location: "अंधेरी, मुंबई"
+      },
+      {
+        text: "डिलीवरी की बहुत बढ़िया व्यवस्था है! बप्पा की दगडूशेठ मूर्ति को विशेष गद्देदार बॉक्स में मेरे घर तक बिल्कुल सुरक्षित पहुंचाया गया। बुकिंग से लेकर डिलीवरी तक व्हाट्सएप पर लगातार अपडेट मिलते रहे।",
+        name: "प्रियंका जोशी",
+        location: "कोथरुड, पुणे"
+      },
+      {
+        text: "ऑनलाइन बुकिंग की प्रक्रिया बहुत आसान है। 50% टोकन भुगतान प्रणाली पूरी तरह पारदर्शी है। मूर्ति पर किए गए प्राकृतिक रंग व कारीगरी बहुत उच्च कोटि की है।",
+        name: "रोहन देशमुख",
+        location: "ठाणे, महाराष्ट्र"
+      }
+    ],
+    productDetailTitle: "गणपति मूर्ति का संपूर्ण विवरण",
+    inStock: "स्टॉक में उपलब्ध (इको-फ्रेंडली)",
+    sizeGuideTitle: "आकार एवं स्थापना मार्गदर्शिका",
+    ecoProofTitle: "100% पर्यावरण-अनुकूल विसर्जन",
+    orderOnWhatsapp: "व्हाट्सएप पर ऑर्डर करें",
+    checkoutAdvanceTitle: "50% एडवांस टोकन भुगतान नियम",
+    checkoutAdvanceDesc: "वर्ष 2026 के लिए अपनी गणेश मूर्ति की बुकिंग सुरक्षित करने के लिए अभी केवल 50% एडवांस टोकन राशि जमा करनी होगी। शेष 50% राशि डिलीवरी के समय देय है।",
+    deliveryGuarantee: "गणेश चतुर्थी से 3 दिन पहले घर/पंडाल पर निश्चित सुरक्षित डिलीवरी की गारंटी।",
+    upiTitle: "सुरक्षित UPI / QR कोड पेमेंट निर्देश",
+    upiDesc: "कृपया 50% बुकिंग टोकन राशि ₹{amt} का भुगतान अपने किसी भी UPI ऐप (GPay, PhonePe, Paytm) से हमारे आधिकारिक UPI ID: bappa@upi पर ट्रांसफर करें, या व्हाट्सएप पर भेजे गए QR कोड को स्कैन करें।",
+    badgeEcoCertified: "100% विघटनकारी मिट्टी",
     
     gallery: {
       img1: "निर्माणशाला - हमारी मूर्तियाँ तैयार होते हुए",
@@ -514,6 +677,8 @@ export default function Home() {
       <Gallery lang={lang} T={T} />
       
       <Services lang={lang} T={T} />
+      
+      <Reviews lang={lang} T={T} />
       
       <FAQ lang={lang} T={T} />
       

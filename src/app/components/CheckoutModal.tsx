@@ -135,6 +135,15 @@ export default function CheckoutModal({
                 />
               </div>
 
+              <div style={{ backgroundColor: "rgba(212, 175, 55, 0.08)", border: "1px dashed var(--color-gold)", padding: "12px 16px", borderRadius: "var(--radius-sm)", marginBottom: "20px", fontSize: "0.85rem", color: "var(--color-text-dark)", display: "flex", flexDirection: "column", gap: "6px", textAlign: "left" }}>
+                <p style={{ display: "flex", alignItems: "center", gap: "6px", fontWeight: "600", color: "var(--color-maroon)" }}>
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ color: "var(--color-gold-dark)" }}><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                  {T[lang].checkoutAdvanceTitle}
+                </p>
+                <p>{T[lang].checkoutAdvanceDesc}</p>
+                <p style={{ color: "#4caf50", fontWeight: "600" }}>✓ {T[lang].deliveryGuarantee}</p>
+              </div>
+
               <button type="submit" className="form-submit-btn">
                 {T[lang].submitBtn}
               </button>
@@ -174,6 +183,22 @@ export default function CheckoutModal({
                 <div className="checkout-receipt-row" style={{ borderTop: "2px dashed rgba(138, 21, 21, 0.2)", borderBottom: "none", paddingTop: "8px", fontWeight: "bold", fontSize: "1rem" }}>
                   <span>{T[lang].cartSubtotal}:</span>
                   <span style={{ color: "var(--color-maroon)" }}>₹{calculateSubtotal().toLocaleString("en-IN")}</span>
+                </div>
+              </div>
+
+              {/* UPI Payment Instructions */}
+              <div style={{ backgroundColor: "rgba(138, 21, 21, 0.03)", border: "1px solid rgba(138, 21, 21, 0.08)", borderRadius: "var(--radius-sm)", padding: "14px 16px", marginTop: "16px", fontSize: "0.85rem", textAlign: "left" }}>
+                <p style={{ fontWeight: 700, color: "var(--color-maroon)", marginBottom: "6px", display: "flex", alignItems: "center", gap: "6px" }}>
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.5"><rect x="2" y="2" width="20" height="16" rx="2" ry="2" fill="none"/><path d="M12 18h.01"/></svg>
+                  {T[lang].upiTitle}
+                </p>
+                <p style={{ color: "var(--color-text-light)", lineHeight: "1.5" }}>
+                  {T[lang].upiDesc.replace("{amt}", (calculateSubtotal() * 0.5).toLocaleString("en-IN"))}
+                </p>
+                <div style={{ display: "flex", gap: "8px", marginTop: "10px" }}>
+                  <span style={{ fontSize: "0.72rem", backgroundColor: "var(--color-gold)", color: "var(--color-maroon)", padding: "2px 8px", borderRadius: "4px", fontWeight: "700" }}>GPAY</span>
+                  <span style={{ fontSize: "0.72rem", backgroundColor: "var(--color-gold)", color: "var(--color-maroon)", padding: "2px 8px", borderRadius: "4px", fontWeight: "700" }}>PHONEPE</span>
+                  <span style={{ fontSize: "0.72rem", backgroundColor: "var(--color-gold)", color: "var(--color-maroon)", padding: "2px 8px", borderRadius: "4px", fontWeight: "700" }}>BHIM UPI</span>
                 </div>
               </div>
 
